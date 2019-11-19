@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MovieDetailFragment">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="@string/details_type_label_text" />
+
+        <TextView
+            android:id="@+id/movie_type"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:text="@string/details_genre_label_text"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/movie_genre"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/details_priority_label_text"
+            android:padding="16dp" />
+
+        <RatingBar
+            android:id="@+id/movie_priority"
+            style="@android:style/Widget.Material.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:paddingTop="8dp" />
+    </LinearLayout>
+
+</LinearLayout>
