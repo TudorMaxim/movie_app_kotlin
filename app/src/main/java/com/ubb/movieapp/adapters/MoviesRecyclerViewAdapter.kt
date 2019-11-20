@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ubb.movieapp.AddMovieActivity
 import com.ubb.movieapp.MovieDetailActivity
 import com.ubb.movieapp.R
 import com.ubb.movieapp.MovieDetailFragment
@@ -22,7 +23,11 @@ class MoviesRecyclerViewAdapter internal constructor(context: Context): Recycler
         onClickListener = View.OnClickListener { v ->
             val item = v.tag as Movie
             val intent = Intent(v.context, MovieDetailActivity::class.java).apply {
-                putExtra(MovieDetailFragment.ARG_MOVIE_ID, item.id)
+                putExtra(MovieDetailFragment.ID_EXTRA, item.id.toString())
+                putExtra(MovieDetailFragment.NAME_EXTRA, item.name)
+                putExtra(MovieDetailFragment.GENRE_EXTRA, item.genre)
+                putExtra(MovieDetailFragment.TYPE_EXTRA, item.type)
+                putExtra(MovieDetailFragment.PRIORITY_EXTRA, item.priority.toString())
             }
             v.context.startActivity(intent)
         }

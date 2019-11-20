@@ -25,15 +25,6 @@ class MainActivity : AppCompatActivity() {
     private val addMovieActivityRequestCode = 1
     private lateinit var movieViewModel: MovieViewModel
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val moviesAdapter = MoviesRecyclerViewAdapter(this)
-        recyclerView.adapter = moviesAdapter
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
-        movieViewModel.allMovies.observe(this, Observer { movies ->
-            movies?.let { moviesAdapter.setMovies(it) }
-        })
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -58,23 +49,27 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == addMovieActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val movie = Movie(
-                    data.getIntExtra(AddMovieActivity.ID_EXTRA, 0),
-                    data.getStringExtra(AddMovieActivity.NAME_EXTRA) as String,
-                    data.getStringExtra(AddMovieActivity.GENRE_EXTRA) as String,
-                    data.getStringExtra(AddMovieActivity.TYPE_EXTRA) as String,
-                    data.getFloatExtra(AddMovieActivity.PRIORITY_EXTRA, 0F)
-                )
-                movieViewModel.insert(movie)
-                Unit
-            }
+            addMovie(intentData)
         } else {
             Toast.makeText(
                 applicationContext,
                 "Could not save!",
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    private fun addMovie(intentData: Intent?) {
+        intentData?.let { data ->
+            val movie = Movie(
+                data.getIntExtra(AddMovieActivity.ID_EXTRA, 0),
+                data.getStringExtra(AddMovieActivity.NAME_EXTRA) as String,
+                data.getStringExtra(AddMovieActivity.GENRE_EXTRA) as String,
+                data.getStringExtra(AddMovieActivity.TYPE_EXTRA) as String,
+                data.getFloatExtra(AddMovieActivity.PRIORITY_EXTRA, 0F)
+            )
+            movieViewModel.insert(movie)
+            Unit
         }
     }
 

@@ -20,9 +20,16 @@ class AddMovieActivity : AppCompatActivity() {
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val id = intent.getStringExtra(MovieDetailFragment.ARG_MOVIE_ID)
+        val id = intent.getStringExtra(MovieDetailFragment.ID_EXTRA)
         if (id != null) {
             // movie = DummyContent.getMovie(id)
+            movie = Movie(
+                intent.getIntExtra(MovieDetailFragment.ID_EXTRA, 0),
+                intent.getStringExtra(MovieDetailFragment.NAME_EXTRA) as String,
+                intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA) as String,
+                intent.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
+                intent.getFloatExtra(MovieDetailFragment.PRIORITY_EXTRA, 0F)
+            )
         }
         if (movie == null) {
             // add operation
