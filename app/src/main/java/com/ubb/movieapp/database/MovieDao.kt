@@ -6,7 +6,7 @@ import com.ubb.movieapp.model.Movie
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movies ORDER BY priority")
+    @Query("SELECT * FROM movies ORDER BY priority DESC")
     fun getAll(): LiveData<List <Movie>>
 
     @Query("DELETE FROM movies")
