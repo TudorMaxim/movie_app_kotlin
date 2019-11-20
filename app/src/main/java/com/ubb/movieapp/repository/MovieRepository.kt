@@ -14,4 +14,8 @@ class MovieRepository(private val movieDao: MovieDao) {
     suspend fun delete(movie: Movie) {
         movieDao.delete(movie)
     }
+
+    suspend fun update(movie: Movie) {
+        movieDao.update(movie)
+    }
 }

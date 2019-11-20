@@ -28,4 +28,8 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
     fun delete(movie: Movie) = viewModelScope.launch {
         repository.delete(movie)
     }
+
+    fun update(movie: Movie) = viewModelScope.launch {
+        repository.update(movie)
+    }
 }

@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val addMovieActivityRequestCode = 1
-    private val deleteMovieRequestCode = 2
+    private val deleteAndUpdateMovieRequestCode = 2
+
     private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,14 +52,29 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == addMovieActivityRequestCode && resultCode == Activity.RESULT_OK) {
             addMovie(intentData)
-        } else if (deleteMovieRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
+        } else if (deleteAndUpdateMovieRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
             intentData.let { data ->
-                val id: Int = data!!.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
-                for (movie in movieViewModel.allMovies.value!!) {
-                    if (movie.id == id) {
-                        movieViewModel.delete(movie)
-                        Unit
+                if (data?.getStringExtra(MovieDetailFragment.ID_EXTRA) != null) {
+                    //delete
+                    val id: Int = data.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
+                    for (movie in movieViewModel.allMovies.value!!) {
+                        if (movie.id == id) {
+                            movieViewModel.delete(movie)
+                            Unit
+                        }
                     }
+                } else {
+                    // update
+                    val params = data?.getStringArrayListExtra("params")
+                    val movie: Movie = Movie(
+                        params?.get(0)!!.toInt(),
+                        params[1],
+                        params[2],
+                        params[3],
+                        params[4].toFloat()
+                    )
+                    movieViewModel.update(movie)
+                    Unit
                 }
             }
         } else {

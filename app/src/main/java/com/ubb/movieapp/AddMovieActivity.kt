@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.core.app.NavUtils
 import com.google.android.material.snackbar.Snackbar
 import com.ubb.movieapp.model.Movie
 import kotlinx.android.synthetic.main.activity_add_movie.*
@@ -21,14 +23,15 @@ class AddMovieActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val id = intent.getStringExtra(MovieDetailFragment.ID_EXTRA)
+
+
         if (id != null) {
-            // movie = DummyContent.getMovie(id)
             movie = Movie(
-                intent.getIntExtra(MovieDetailFragment.ID_EXTRA, 0),
-                intent.getStringExtra(MovieDetailFragment.NAME_EXTRA) as String,
-                intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA) as String,
-                intent.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
-                intent.getFloatExtra(MovieDetailFragment.PRIORITY_EXTRA, 0F)
+                id.toInt(),
+                intent.getStringExtra(MovieDetailFragment.NAME_EXTRA)!!,
+                intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA)!!,
+                intent.getStringExtra(MovieDetailFragment.TYPE_EXTRA)!!,
+                intent.getStringExtra(MovieDetailFragment.PRIORITY_EXTRA)!!.toFloat()
             )
         }
         if (movie == null) {
@@ -41,8 +44,8 @@ class AddMovieActivity : AppCompatActivity() {
             input_name.setText(movie?.name)
             input_genre.setText(movie?.genre)
             input_type.setText(movie?.type)
-            val priority: String = movie?.priority as String
-            input_priority.setRating(priority.toFloat())
+            val priority: Float = movie?.priority as Float
+            input_priority.setRating(priority)
         }
     }
 
@@ -62,7 +65,6 @@ class AddMovieActivity : AppCompatActivity() {
             } else {
                 this.update(movie?.id as Int, movieName, movieType, movieGenre, moviePriority)
             }
-            //NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
             finish()
         }
     }
@@ -78,11 +80,11 @@ class AddMovieActivity : AppCompatActivity() {
 
     private fun update(id: Int, name: String, type:String, genre:String, priority: Float) {
         val intent = Intent()
-        intent.putExtra(ID_EXTRA, id)
+        intent.putExtra(ID_EXTRA, id.toString())
         intent.putExtra(NAME_EXTRA, name)
         intent.putExtra(GENRE_EXTRA, genre)
         intent.putExtra(TYPE_EXTRA, type)
-        intent.putExtra(PRIORITY_EXTRA, priority)
+        intent.putExtra(PRIORITY_EXTRA, priority.toString())
         setResult(Activity.RESULT_OK, intent)
     }
 
@@ -92,15 +94,14 @@ class AddMovieActivity : AppCompatActivity() {
         const val GENRE_EXTRA = "movie_genre"
         const val TYPE_EXTRA = "movie_type"
         const val PRIORITY_EXTRA = "priority_extra"
-
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem) =
-//        when (item.itemId) {
-//            android.R.id.home -> {
-//                NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            android.R.id.home -> {
+                NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }

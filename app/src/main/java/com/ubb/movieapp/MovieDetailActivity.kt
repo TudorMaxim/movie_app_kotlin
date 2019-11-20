@@ -41,22 +41,49 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         val id = intent.getStringExtra(MovieDetailFragment.ID_EXTRA)
+        val name = intent.getStringExtra(MovieDetailFragment.NAME_EXTRA)
+        val genre = intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA)
+        val type = intent.getStringExtra(MovieDetailFragment.TYPE_EXTRA)
+        val priority = intent.getStringExtra(MovieDetailFragment.PRIORITY_EXTRA)
 
         delete_button.setOnClickListener {
             val intent = Intent()
             intent.putExtra(MovieDetailFragment.ID_EXTRA, id)
             setResult(Activity.RESULT_OK, intent)
             finish()
-            // NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
         }
-//
-//        update_button.setOnClickListener {view ->
-//            val id = intent.getStringExtra(MovieDetailFragment.ARG_MOVIE_ID) as String
-//            var intent = Intent(view.context, AddMovieActivity::class.java).apply {
-//                this.putExtra(MovieDetailFragment.ARG_MOVIE_ID, id)
-//            }
-//            view.context.startActivity(intent)
-//        }
+
+        update_button.setOnClickListener {view ->
+            val intent = Intent(this, AddMovieActivity::class.java)
+            intent.let {
+                it.putExtra(MovieDetailFragment.ID_EXTRA, id)
+                it.putExtra(MovieDetailFragment.NAME_EXTRA, name)
+                it.putExtra(MovieDetailFragment.GENRE_EXTRA, genre)
+                it.putExtra(MovieDetailFragment.TYPE_EXTRA, type)
+                it.putExtra(MovieDetailFragment.PRIORITY_EXTRA, priority)
+            }
+            (view.context as Activity).startActivityForResult(intent, 3)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 3 && resultCode == Activity.RESULT_OK) {
+            data.let { intent ->
+                val replyIntent = Intent()
+                val params: ArrayList<String> = arrayListOf(
+                    intent?.getStringExtra(AddMovieActivity.ID_EXTRA) as String,
+                    intent.getStringExtra(AddMovieActivity.NAME_EXTRA) as String,
+                    intent.getStringExtra(AddMovieActivity.GENRE_EXTRA) as String,
+                    intent.getStringExtra(AddMovieActivity.TYPE_EXTRA) as String,
+                    intent.getStringExtra(AddMovieActivity.PRIORITY_EXTRA) as String
+                )
+                replyIntent.putStringArrayListExtra("params", params)
+                setResult(Activity.RESULT_OK, replyIntent)
+                finish()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
