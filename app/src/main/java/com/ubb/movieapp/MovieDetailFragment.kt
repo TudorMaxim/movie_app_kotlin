@@ -23,7 +23,7 @@ class MovieDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             if (it.containsKey(ARG_MOVIE_ID)) {
-                item = DummyContent.ITEM_MAP[it.getString(ARG_MOVIE_ID)]
+//                item = DummyContent.ITEM_MAP[it.getString(ARG_MOVIE_ID)]
                 activity?.toolbar_layout?.title = item?.name
             }
         }

@@ -44,7 +44,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         delete_button.setOnClickListener {
             val id = intent.getStringExtra(MovieDetailFragment.ARG_MOVIE_ID) as String
-            DummyContent.deleteMovie(id)
+//            DummyContent.deleteMovie(id)
             NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
         }
 

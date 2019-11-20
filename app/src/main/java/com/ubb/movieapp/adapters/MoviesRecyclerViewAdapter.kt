@@ -1,5 +1,6 @@
 package com.ubb.movieapp.adapters
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +14,10 @@ import com.ubb.movieapp.MovieDetailFragment
 import com.ubb.movieapp.model.Movie
 import kotlinx.android.synthetic.main.movie_list_content.view.*
 
-class MoviesRecyclerViewAdapter (
-    private val movies: MutableList<Movie>
-) : RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder>() {
-
+class MoviesRecyclerViewAdapter internal constructor(context: Context): RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder>() {
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var movies = emptyList<Movie>()
     private val onClickListener: View.OnClickListener
-
     init {
         onClickListener = View.OnClickListener { v ->
             val item = v.tag as Movie
@@ -30,21 +29,24 @@ class MoviesRecyclerViewAdapter (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.movie_list_content, parent, false)
+        val view = inflater.inflate(R.layout.movie_list_content, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = movies[position]
         holder.nameView.text = item.name
-        holder.genreView.rating = item.priority.toFloat()
+        holder.genreView.rating = item.priority
         holder.genreView.setFocusable(false)
-
         with(holder.itemView) {
             tag = item
             setOnClickListener(onClickListener)
         }
+    }
+
+    internal fun setMovies(movies: List<Movie>) {
+        this.movies = movies
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = movies.size
