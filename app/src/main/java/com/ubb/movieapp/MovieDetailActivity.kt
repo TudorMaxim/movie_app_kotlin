@@ -25,7 +25,7 @@ class MovieDetailActivity : AppCompatActivity() {
             // using a fragment transaction.
             val fragment = MovieDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putStringArray("details", arrayOf(
+                    putStringArray(MovieDetailFragment.DETAILS_EXTRA, arrayOf(
                         intent.getStringExtra(MovieDetailFragment.ID_EXTRA),
                         intent.getStringExtra(MovieDetailFragment.NAME_EXTRA),
                         intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA),
@@ -73,13 +73,13 @@ class MovieDetailActivity : AppCompatActivity() {
             data.let { intent ->
                 val replyIntent = Intent()
                 val params: ArrayList<String> = arrayListOf(
-                    intent?.getStringExtra(AddMovieActivity.ID_EXTRA) as String,
-                    intent.getStringExtra(AddMovieActivity.NAME_EXTRA) as String,
-                    intent.getStringExtra(AddMovieActivity.GENRE_EXTRA) as String,
-                    intent.getStringExtra(AddMovieActivity.TYPE_EXTRA) as String,
-                    intent.getStringExtra(AddMovieActivity.PRIORITY_EXTRA) as String
+                    intent?.getStringExtra(MovieDetailFragment.ID_EXTRA) as String,
+                    intent.getStringExtra(MovieDetailFragment.NAME_EXTRA) as String,
+                    intent.getStringExtra(MovieDetailFragment.GENRE_EXTRA) as String,
+                    intent.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
+                    intent.getStringExtra(MovieDetailFragment.PRIORITY_EXTRA) as String
                 )
-                replyIntent.putStringArrayListExtra("params", params)
+                replyIntent.putStringArrayListExtra(MovieDetailFragment.DETAILS_EXTRA, params)
                 setResult(Activity.RESULT_OK, replyIntent)
                 finish()
             }

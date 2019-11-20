@@ -18,7 +18,7 @@ class MovieDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            details = it.getStringArray("details") as Array<String>
+            details = it.getStringArray(DETAILS_EXTRA) as Array<String>
             item = Movie(
                 details[0].toInt(),
                 details[1],
@@ -50,6 +50,7 @@ class MovieDetailFragment : Fragment() {
         const val NAME_EXTRA = "movie_name"
         const val GENRE_EXTRA = "movie_genre"
         const val TYPE_EXTRA = "movie_type"
-        const val PRIORITY_EXTRA = "priority_extra"
+        const val PRIORITY_EXTRA = "movie_priority"
+        const val DETAILS_EXTRA = "movie_details"
     }
 }

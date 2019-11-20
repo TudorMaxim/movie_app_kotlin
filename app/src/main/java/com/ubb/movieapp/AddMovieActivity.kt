@@ -71,29 +71,21 @@ class AddMovieActivity : AppCompatActivity() {
 
     private fun add(name: String, type:String, genre:String, priority: Float) {
         val intent = Intent()
-        intent.putExtra(NAME_EXTRA, name)
-        intent.putExtra(GENRE_EXTRA, genre)
-        intent.putExtra(TYPE_EXTRA, type)
-        intent.putExtra(PRIORITY_EXTRA, priority)
+        intent.putExtra(MovieDetailFragment.NAME_EXTRA, name)
+        intent.putExtra(MovieDetailFragment.GENRE_EXTRA, genre)
+        intent.putExtra(MovieDetailFragment.TYPE_EXTRA, type)
+        intent.putExtra(MovieDetailFragment.PRIORITY_EXTRA, priority)
         setResult(Activity.RESULT_OK, intent)
     }
 
     private fun update(id: Int, name: String, type:String, genre:String, priority: Float) {
         val intent = Intent()
-        intent.putExtra(ID_EXTRA, id.toString())
-        intent.putExtra(NAME_EXTRA, name)
-        intent.putExtra(GENRE_EXTRA, genre)
-        intent.putExtra(TYPE_EXTRA, type)
-        intent.putExtra(PRIORITY_EXTRA, priority.toString())
+        intent.putExtra(MovieDetailFragment.ID_EXTRA, id.toString())
+        intent.putExtra(MovieDetailFragment.NAME_EXTRA, name)
+        intent.putExtra(MovieDetailFragment.GENRE_EXTRA, genre)
+        intent.putExtra(MovieDetailFragment.TYPE_EXTRA, type)
+        intent.putExtra(MovieDetailFragment.PRIORITY_EXTRA, priority.toString())
         setResult(Activity.RESULT_OK, intent)
-    }
-
-    companion object {
-        const val ID_EXTRA = "movie_id"
-        const val NAME_EXTRA = "movie_name"
-        const val GENRE_EXTRA = "movie_genre"
-        const val TYPE_EXTRA = "movie_type"
-        const val PRIORITY_EXTRA = "priority_extra"
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

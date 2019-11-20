@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 } else {
                     // update
-                    val params = data?.getStringArrayListExtra("params")
-                    val movie: Movie = Movie(
+                    val params = data?.getStringArrayListExtra(MovieDetailFragment.DETAILS_EXTRA)
+                    val movie = Movie(
                         params?.get(0)!!.toInt(),
                         params[1],
                         params[2],
@@ -89,11 +89,11 @@ class MainActivity : AppCompatActivity() {
     private fun addMovie(intentData: Intent?) {
         intentData?.let { data ->
             val movie = Movie(
-                data.getIntExtra(AddMovieActivity.ID_EXTRA, 0),
-                data.getStringExtra(AddMovieActivity.NAME_EXTRA) as String,
-                data.getStringExtra(AddMovieActivity.GENRE_EXTRA) as String,
-                data.getStringExtra(AddMovieActivity.TYPE_EXTRA) as String,
-                data.getFloatExtra(AddMovieActivity.PRIORITY_EXTRA, 0F)
+                data.getIntExtra(MovieDetailFragment.ID_EXTRA, 0),
+                data.getStringExtra(MovieDetailFragment.NAME_EXTRA) as String,
+                data.getStringExtra(MovieDetailFragment.GENRE_EXTRA) as String,
+                data.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
+                data.getFloatExtra(MovieDetailFragment.PRIORITY_EXTRA, 0F)
             )
             movieViewModel.insert(movie)
             Unit
