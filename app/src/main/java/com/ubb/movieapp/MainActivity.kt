@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val addMovieActivityRequestCode = 1
+    private val deleteMovieRequestCode = 2
     private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,16 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == addMovieActivityRequestCode && resultCode == Activity.RESULT_OK) {
             addMovie(intentData)
+        } else if (deleteMovieRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
+            intentData.let { data ->
+                val id: Int = data!!.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
+                for (movie in movieViewModel.allMovies.value!!) {
+                    if (movie.id == id) {
+                        movieViewModel.delete(movie)
+                        Unit
+                    }
+                }
+            }
         } else {
             Toast.makeText(
                 applicationContext,

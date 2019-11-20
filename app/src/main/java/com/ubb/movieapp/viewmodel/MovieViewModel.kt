@@ -24,4 +24,8 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
     fun insert(movie: Movie) = viewModelScope.launch {
         repository.insert(movie)
     }
+
+    fun delete(movie: Movie) = viewModelScope.launch {
+        repository.delete(movie)
+    }
 }

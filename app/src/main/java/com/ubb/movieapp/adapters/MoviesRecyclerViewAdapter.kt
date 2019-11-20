@@ -1,5 +1,6 @@
 package com.ubb.movieapp.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -29,7 +30,7 @@ class MoviesRecyclerViewAdapter internal constructor(context: Context): Recycler
                 putExtra(MovieDetailFragment.TYPE_EXTRA, item.type)
                 putExtra(MovieDetailFragment.PRIORITY_EXTRA, item.priority.toString())
             }
-            v.context.startActivity(intent)
+            (context as Activity).startActivityForResult(intent, 2)
         }
     }
 

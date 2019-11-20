@@ -1,5 +1,6 @@
 package com.ubb.movieapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -39,11 +40,15 @@ class MovieDetailActivity : AppCompatActivity() {
                 .commit()
         }
 
-//        delete_button.setOnClickListener {
-//            val id = intent.getStringExtra(MovieDetailFragment.ARG_MOVIE_ID) as String
-////            DummyContent.deleteMovie(id)
-//            NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
-//        }
+        val id = intent.getStringExtra(MovieDetailFragment.ID_EXTRA)
+
+        delete_button.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra(MovieDetailFragment.ID_EXTRA, id)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            // NavUtils.navigateUpTo(this, Intent(this, MainActivity::class.java))
+        }
 //
 //        update_button.setOnClickListener {view ->
 //            val id = intent.getStringExtra(MovieDetailFragment.ARG_MOVIE_ID) as String
