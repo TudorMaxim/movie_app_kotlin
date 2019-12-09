@@ -12,7 +12,7 @@ import com.ubb.movieapp.model.Movie
 import kotlinx.android.synthetic.main.activity_add_movie.*
 import kotlinx.android.synthetic.main.add_movie_form.*
 
-class AddMovieActivity : AppCompatActivity() {
+class AddMovieActivity : BaseActivity() {
     private var movie:Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,6 @@ class AddMovieActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val id = intent.getStringExtra(MovieDetailFragment.ID_EXTRA)
-
 
         if (id != null) {
             movie = Movie(
@@ -96,4 +95,18 @@ class AddMovieActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun showMessage(isConnected: Boolean) {
+        if (!isConnected) {
+            val messageToUser = "You are offline"
+            mSnackBar = Snackbar.make(
+                findViewById(R.id.form_root),
+                messageToUser,
+                Snackbar.LENGTH_INDEFINITE
+            ) //Assume "rootLayout" as the root layout of every activity.
+            mSnackBar?.show()
+        } else {
+            mSnackBar?.dismiss()
+        }
+    }
 }

@@ -17,12 +17,12 @@
             android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 
-<!--    <TextView-->
-<!--        android:id="@+id/video_genre"-->
-<!--        android:padding="5dp"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textAppearance="?attr/textAppearanceListItem" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/video_genre"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textAppearance="?attr/textAppearanceListItem" />-->
 
     <RatingBar
         android:id="@+id/video_priority"

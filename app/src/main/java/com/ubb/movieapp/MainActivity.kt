@@ -1,7 +1,10 @@
 package com.ubb.movieapp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private val addMovieActivityRequestCode = 1
     private val deleteAndUpdateMovieRequestCode = 2
 
@@ -53,29 +56,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == addMovieActivityRequestCode && resultCode == Activity.RESULT_OK) {
             addMovie(intentData)
         } else if (deleteAndUpdateMovieRequestCode == requestCode && resultCode == Activity.RESULT_OK) {
-            intentData.let { data ->
-                if (data?.getStringExtra(MovieDetailFragment.ID_EXTRA) != null) {
-                    //delete
-                    val id: Int = data.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
-                    for (movie in movieViewModel.allMovies.value!!) {
-                        if (movie.id == id) {
-                            movieViewModel.delete(movie)
-                            Unit
-                        }
-                    }
-                } else {
-                    // update
-                    val params = data?.getStringArrayListExtra(MovieDetailFragment.DETAILS_EXTRA)
-                    val movie = Movie(
-                        params?.get(0)!!.toInt(),
-                        params[1],
-                        params[2],
-                        params[3],
-                        params[4].toFloat()
-                    )
-                    movieViewModel.update(movie)
-                    Unit
-                }
+            if (intentData?.getStringExtra(MovieDetailFragment.ID_EXTRA) != null) { // delete
+                deleteMovie(intentData)
+            } else { // update
+                updateMovie(intentData)
             }
         } else {
             Toast.makeText(
@@ -100,4 +84,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun deleteMovie(data: Intent?) {
+        val id: Int = data?.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
+        for (movie in movieViewModel.allMovies.value!!) {
+            if (movie.id == id) {
+                movieViewModel.delete(movie)
+                Unit
+            }
+        }
+    }
+
+    private fun updateMovie(data: Intent?) {
+        val params = data?.getStringArrayListExtra(MovieDetailFragment.DETAILS_EXTRA)
+        val movie = Movie(
+            params?.get(0)!!.toInt(),
+            params[1],
+            params[2],
+            params[3],
+            params[4].toFloat()
+        )
+        movieViewModel.update(movie)
+        Unit
+    }
 }

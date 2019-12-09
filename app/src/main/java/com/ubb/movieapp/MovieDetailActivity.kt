@@ -8,9 +8,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.core.app.NavUtils
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,4 +95,18 @@ class MovieDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun showMessage(isConnected: Boolean) {
+        if (!isConnected) {
+            val messageToUser = "You are offline"
+            mSnackBar = Snackbar.make(
+                findViewById(R.id.detail_root),
+                messageToUser,
+                Snackbar.LENGTH_INDEFINITE
+            ) //Assume "rootLayout" as the root layout of every activity.
+            mSnackBar?.show()
+        } else {
+            mSnackBar?.dismiss()
+        }
+    }
 }
