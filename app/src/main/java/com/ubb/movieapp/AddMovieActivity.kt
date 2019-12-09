@@ -1,6 +1,7 @@
 package com.ubb.movieapp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -61,10 +62,19 @@ class AddMovieActivity : BaseActivity() {
         } else {
             if (movie == null) {
                 this.add(movieName, movieType, movieGenre, moviePriority)
+                finish()
             } else {
-                this.update(movie?.id as Int, movieName, movieType, movieGenre, moviePriority)
+                if (connected) {
+                    this.update(movie?.id as Int, movieName, movieType, movieGenre, moviePriority)
+                    finish()
+                } else {
+                    AlertDialog.Builder(this)
+                        .setTitle("Error")
+                        .setMessage("You cannot update this movie because you are offline!")
+                        .setNegativeButton(android.R.string.no, null)
+                        .show()
+                }
             }
-            finish()
         }
     }
 

@@ -11,6 +11,7 @@ import com.ubb.movieapp.connectivity.ConnectivityReceiver
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
     var mSnackBar: Snackbar? = null
+    open var connected: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,9 @@ open class BaseActivity : AppCompatActivity(), ConnectivityReceiver.Connectivity
                 Snackbar.LENGTH_INDEFINITE
             ) //Assume "rootLayout" as the root layout of every activity.
             mSnackBar?.show()
+            connected = false
         } else {
+            connected = true
             mSnackBar?.dismiss()
         }
     }

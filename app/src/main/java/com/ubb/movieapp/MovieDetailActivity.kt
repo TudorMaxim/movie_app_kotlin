@@ -1,9 +1,9 @@
 package com.ubb.movieapp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
@@ -48,22 +48,40 @@ class MovieDetailActivity : BaseActivity() {
         val priority = intent.getStringExtra(MovieDetailFragment.PRIORITY_EXTRA)
 
         delete_button.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(MovieDetailFragment.ID_EXTRA, id)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+            if (connected) {
+                val intent = Intent()
+                intent.putExtra(MovieDetailFragment.ID_EXTRA, id)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("You cannot delete this movie because you are offline!")
+                    .setNegativeButton(android.R.string.no, null)
+                    .show()
+            }
+
         }
 
         update_button.setOnClickListener {view ->
-            val intent = Intent(this, AddMovieActivity::class.java)
-            intent.let {
-                it.putExtra(MovieDetailFragment.ID_EXTRA, id)
-                it.putExtra(MovieDetailFragment.NAME_EXTRA, name)
-                it.putExtra(MovieDetailFragment.GENRE_EXTRA, genre)
-                it.putExtra(MovieDetailFragment.TYPE_EXTRA, type)
-                it.putExtra(MovieDetailFragment.PRIORITY_EXTRA, priority)
+            if (connected) {
+                val intent = Intent(this, AddMovieActivity::class.java)
+                intent.let {
+                    it.putExtra(MovieDetailFragment.ID_EXTRA, id)
+                    it.putExtra(MovieDetailFragment.NAME_EXTRA, name)
+                    it.putExtra(MovieDetailFragment.GENRE_EXTRA, genre)
+                    it.putExtra(MovieDetailFragment.TYPE_EXTRA, type)
+                    it.putExtra(MovieDetailFragment.PRIORITY_EXTRA, priority)
+                }
+                (view.context as Activity).startActivityForResult(intent, 3)
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("You cannot update this movie because you are offline!")
+                    .setNegativeButton(android.R.string.no, null)
+                    .show()
             }
-            (view.context as Activity).startActivityForResult(intent, 3)
+
         }
     }
 

@@ -1,28 +1,17 @@
 package com.ubb.movieapp
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.ubb.movieapp.adapters.MoviesRecyclerViewAdapter
-import com.ubb.movieapp.database.MovieDatabase
-import com.ubb.movieapp.dummy.DummyContent
 import com.ubb.movieapp.model.Movie
 import com.ubb.movieapp.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.fab
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity() {
     private val addMovieActivityRequestCode = 1

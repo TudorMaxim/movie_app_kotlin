@@ -5,6 +5,7 @@
     <string name="details_priority_label_text"> Priority: </string>
     <string name="details_genre_label_text"> Genre: </string>
     <string name="genre_prompt">Choose a genre</string>
+    <string name="no">Cancel</string>
     <string-array name="genres">
         <item>Movie</item>
         <item>TV Series</item>
