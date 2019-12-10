@@ -13,7 +13,7 @@ class ConnectivityReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun isConnectedOrConnecting(context: Context): Boolean {
+    fun isConnectedOrConnecting(context: Context): Boolean {
         val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnectedOrConnecting

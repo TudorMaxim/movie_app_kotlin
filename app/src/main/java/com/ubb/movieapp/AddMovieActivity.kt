@@ -3,7 +3,6 @@ package com.ubb.movieapp
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_add_movie.*
 import kotlinx.android.synthetic.main.add_movie_form.*
 
 class AddMovieActivity : BaseActivity() {
-    private var movie:Movie? = null
+    private var movie: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,7 @@ class AddMovieActivity : BaseActivity() {
                 this.add(movieName, movieType, movieGenre, moviePriority)
                 finish()
             } else {
-                if (connected) {
+                if (isConnected()) {
                     this.update(movie?.id as Int, movieName, movieType, movieGenre, moviePriority)
                     finish()
                 } else {

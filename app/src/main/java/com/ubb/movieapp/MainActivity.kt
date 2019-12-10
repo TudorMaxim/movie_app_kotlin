@@ -3,6 +3,7 @@ package com.ubb.movieapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +17,6 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : BaseActivity() {
     private val addMovieActivityRequestCode = 1
     private val deleteAndUpdateMovieRequestCode = 2
-
     private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +29,11 @@ class MainActivity : BaseActivity() {
         val moviesAdapter = MoviesRecyclerViewAdapter(this)
         item_list.adapter = moviesAdapter
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-        movieViewModel.loadMovies(connected)
+        movieViewModel.loadMovies(isConnected())
         movieViewModel.allMovies.observe(this, Observer { movies ->
             movies?.let { moviesAdapter.setMovies(it) }
         })
+
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddMovieActivity::class.java)
             startActivityForResult(intent, addMovieActivityRequestCode)
@@ -59,6 +60,11 @@ class MainActivity : BaseActivity() {
         }
     }
 
+//    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+//        super.onNetworkConnectionChanged(isConnected)
+//
+//    }
+
     private fun addMovie(intentData: Intent?) {
         intentData?.let { data ->
             val movie = Movie(
@@ -68,7 +74,7 @@ class MainActivity : BaseActivity() {
                 data.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
                 data.getFloatExtra(MovieDetailFragment.PRIORITY_EXTRA, 0F)
             )
-            movieViewModel.insert(movie)
+            movieViewModel.insert(movie, isConnected())
             Unit
         }
     }

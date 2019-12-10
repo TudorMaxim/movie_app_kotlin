@@ -21,4 +21,16 @@ object NetworkRepository {
         }
         return movies
     }
+
+    suspend fun createMovie(movie: Movie) {
+        MovieApi.service.createMovie(movie)
+    }
+
+    suspend fun deleteMovie(movieId: Int) {
+        MovieApi.service.deleteMovie(movieId)
+    }
+
+    suspend fun updateMovie(movie: Movie) {
+        MovieApi.service.updateMovie(movie.id, movie)
+    }
 }

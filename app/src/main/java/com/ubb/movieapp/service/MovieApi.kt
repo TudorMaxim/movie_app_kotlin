@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+import retrofit2.http.*
 
 object MovieApi {
     private const val URL = "http://10.0.2.2:3000"
@@ -14,6 +14,15 @@ object MovieApi {
     interface Service {
         @GET("/movies")
         suspend fun getMovies(): Map <String, List<Map <String, String> > >
+
+        @POST("/movies")
+        suspend fun createMovie(@Body movie: Movie)
+
+        @DELETE("/movies/{id}")
+        suspend fun deleteMovie(@Path("id") id: Int)
+
+        @PATCH("/movies/{id}")
+        suspend fun updateMovie(@Path("id") id: Int, @Body movie: Movie)
     }
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {

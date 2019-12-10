@@ -3,6 +3,7 @@ package com.ubb.movieapp.viewmodel
 import android.app.Application
 import android.os.Build
 import android.system.ErrnoException
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -18,24 +19,25 @@ import kotlinx.coroutines.withContext
 
 class MovieViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: MovieRepository
-    private var dbMovies: LiveData<List<Movie>>
-    var allMovies = MutableLiveData<List <Movie>>().apply { value = emptyList() }
+    private var serverMovies = MutableLiveData<List<Movie>>().apply { value = emptyList() }
+    var allMovies: LiveData<List <Movie>>
 
     init {
         val movieDao = MovieDatabase.getDatabase(application, viewModelScope).movieDao()
         repository = MovieRepository(movieDao)
-        dbMovies = repository.allMovies
+        allMovies = repository.allMovies
     }
 
     fun loadMovies(connected: Boolean) = viewModelScope.launch {
         if (connected) {
             try {
-                allMovies.value = fetchMoviesFromServer()
+                serverMovies.value = fetchMoviesFromServer()
+                allMovies = serverMovies
             } catch (error: Exception) {
-                allMovies.value = dbMovies.value
+                Log.d("LOAD ERROR", "COULD NOT FETCH MOVIES FROM SERVER")
             }
         } else {
-            allMovies.value = dbMovies.value
+            allMovies = repository.allMovies
         }
     }
 
@@ -43,15 +45,32 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
         NetworkRepository.getMovies()
     }
 
-    fun insert(movie: Movie) = viewModelScope.launch {
+    fun insert(movie: Movie, connected: Boolean) = viewModelScope.launch {
         repository.insert(movie)
+        if (connected) {
+            insertMovieServer(movie)
+        }
     }
 
     fun delete(movie: Movie) = viewModelScope.launch {
         repository.delete(movie)
+        deleteMovieServer(movie)
     }
 
     fun update(movie: Movie) = viewModelScope.launch {
         repository.update(movie)
+        updateMovieServer(movie)
+    }
+
+    private suspend fun insertMovieServer(movie: Movie) = viewModelScope.launch {
+        NetworkRepository.createMovie(movie)
+    }
+
+    private suspend fun deleteMovieServer(movie: Movie) = viewModelScope.launch {
+        NetworkRepository.deleteMovie(movie.id)
+    }
+
+    private suspend fun updateMovieServer(movie: Movie) = viewModelScope.launch {
+        NetworkRepository.updateMovie(movie)
     }
 }

@@ -14,6 +14,7 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
         private var INSTANCE: MovieDatabase? = null
+        private var DB_NAME = "movie_android_db.db"
 
         fun getDatabase(context: Context, scope: CoroutineScope): MovieDatabase {
 
@@ -21,7 +22,7 @@ abstract class MovieDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MovieDatabase::class.java,
-                    "movies_android.db"
+                    DB_NAME
                 )
                 .build()
                 INSTANCE = instance

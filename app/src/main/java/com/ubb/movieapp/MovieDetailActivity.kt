@@ -48,7 +48,7 @@ class MovieDetailActivity : BaseActivity() {
         val priority = intent.getStringExtra(MovieDetailFragment.PRIORITY_EXTRA)
 
         delete_button.setOnClickListener {
-            if (connected) {
+            if (isConnected()) {
                 val intent = Intent()
                 intent.putExtra(MovieDetailFragment.ID_EXTRA, id)
                 setResult(Activity.RESULT_OK, intent)
@@ -60,11 +60,10 @@ class MovieDetailActivity : BaseActivity() {
                     .setNegativeButton(android.R.string.no, null)
                     .show()
             }
-
         }
 
         update_button.setOnClickListener {view ->
-            if (connected) {
+            if (isConnected()) {
                 val intent = Intent(this, AddMovieActivity::class.java)
                 intent.let {
                     it.putExtra(MovieDetailFragment.ID_EXTRA, id)
@@ -81,7 +80,6 @@ class MovieDetailActivity : BaseActivity() {
                     .setNegativeButton(android.R.string.no, null)
                     .show()
             }
-
         }
     }
 
@@ -113,6 +111,17 @@ class MovieDetailActivity : BaseActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        super.onNetworkConnectionChanged(isConnected)
+        if (isConnected) {
+            update_button.isEnabled = true
+            delete_button.isEnabled = true
+        } else {
+            update_button.isEnabled = false
+            delete_button.isEnabled = false
+        }
+    }
 
     override fun showMessage(isConnected: Boolean) {
         if (!isConnected) {
