@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ubb.movieapp.AddMovieActivity
 import com.ubb.movieapp.MovieDetailActivity
 import com.ubb.movieapp.R
 import com.ubb.movieapp.MovieDetailFragment

@@ -29,10 +29,10 @@ class MainActivity : BaseActivity() {
         val moviesAdapter = MoviesRecyclerViewAdapter(this)
         item_list.adapter = moviesAdapter
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+        movieViewModel.loadMovies(connected)
         movieViewModel.allMovies.observe(this, Observer { movies ->
             movies?.let { moviesAdapter.setMovies(it) }
         })
-
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddMovieActivity::class.java)
             startActivityForResult(intent, addMovieActivityRequestCode)

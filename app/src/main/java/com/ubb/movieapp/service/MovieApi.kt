@@ -9,11 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 object MovieApi {
-    private const val URL = "http://10.0.2.2:3000/"
+    private const val URL = "http://10.0.2.2:3000"
 
     interface Service {
         @GET("/movies")
-        suspend fun getMovies(): Map <String, List<Movie> >
+        suspend fun getMovies(): Map <String, List<Map <String, String> > >
     }
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
