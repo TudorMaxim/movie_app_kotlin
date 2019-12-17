@@ -43,17 +43,20 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun insertOnline(movie: Movie) = viewModelScope.launch {
-        insertMovieServer(movie)
+        serverMovies.value = insertMovieServer(movie)
+        allMovies = serverMovies
     }
 
     fun delete(movie: Movie) = viewModelScope.launch {
         repository.delete(movie)
-        deleteMovieServer(movie)
+        serverMovies.value = deleteMovieServer(movie)
+        allMovies = serverMovies
     }
 
     fun update(movie: Movie) = viewModelScope.launch {
         repository.update(movie)
-        updateMovieServer(movie)
+        serverMovies.value = updateMovieServer(movie)
+        allMovies = serverMovies
     }
 
     fun syncMovies() = viewModelScope.launch {
@@ -61,7 +64,8 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
         allMovies.value?.forEach { movie ->
             movies.add(movie)
         }
-        synchronizeMovies(movies)
+        serverMovies.value = synchronizeMovies(movies)
+        allMovies = serverMovies
     }
 
     private suspend fun fetchMoviesFromServer() = withContext(Dispatchers.IO) {

@@ -14,7 +14,7 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
         private var INSTANCE: MovieDatabase? = null
-        private var DB_NAME = "MOVIE_WISHLIST_ANDRIOD.db"
+        private var DB_NAME = "MOVIE_WISHLIST_KTL.db"
 
         fun getDatabase(context: Context, scope: CoroutineScope): MovieDatabase {
 

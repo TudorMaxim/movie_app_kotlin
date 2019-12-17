@@ -16,16 +16,16 @@ object MovieApi {
         suspend fun getMovies(): Map <String, List<Map <String, String> > >
 
         @POST("/movies")
-        suspend fun createMovie(@Body movie: Movie)
+        suspend fun createMovie(@Body movie: Movie): Map <String, List<Map <String, String> > >
 
         @DELETE("/movies/{id}")
-        suspend fun deleteMovie(@Path("id") id: Int)
+        suspend fun deleteMovie(@Path("id") id: Int): Map <String, List<Map <String, String> > >
 
         @PATCH("/movies/{id}")
-        suspend fun updateMovie(@Path("id") id: Int, @Body movie: Movie)
+        suspend fun updateMovie(@Path("id") id: Int, @Body movie: Movie): Map <String, List<Map <String, String> > >
 
         @POST("/movies/sync")
-        suspend fun syncMovies(@Body movies: List <Movie>)
+        suspend fun syncMovies(@Body movies: List <Movie>): Map <String, List<Map <String, String> > >
     }
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {

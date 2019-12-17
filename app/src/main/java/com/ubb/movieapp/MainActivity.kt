@@ -43,6 +43,11 @@ class MainActivity : BaseActivity() {
             movies?.let { moviesAdapter.setMovies(it) }
         })
 
+        movieViewModel.serverMovies.observe(this, Observer { movies ->
+            movies?.let { moviesAdapter.setMovies(it) }
+
+        })
+
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, AddMovieActivity::class.java)
             startActivityForResult(intent, addMovieActivityRequestCode)
@@ -83,10 +88,8 @@ class MainActivity : BaseActivity() {
     fun refresh(view: View?) {
         if (isConnected()) {
             movieViewModel.loadMoviesOnline()
-            Unit
         } else {
             movieViewModel.loadMoviesOffline()
-            Unit
         }
     }
 
@@ -107,7 +110,6 @@ class MainActivity : BaseActivity() {
                 movieViewModel.insert(movie)
                 Unit
             }
-            //refresh(item_list)
         }
     }
 
@@ -120,7 +122,6 @@ class MainActivity : BaseActivity() {
                 Unit
             }
         }
-        //refresh(item_list)
     }
 
     private fun updateMovie(data: Intent?) {
@@ -133,6 +134,5 @@ class MainActivity : BaseActivity() {
             params[4].toFloat()
         )
         movieViewModel.update(movie)
-        Unit
     }
 }
