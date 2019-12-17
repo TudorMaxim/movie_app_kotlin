@@ -3,6 +3,7 @@ package com.ubb.movieapp.adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,11 @@ import com.ubb.movieapp.R
 import com.ubb.movieapp.MovieDetailFragment
 import com.ubb.movieapp.model.Movie
 import kotlinx.android.synthetic.main.movie_list_content.view.*
+import kotlin.math.log
 
 class MoviesRecyclerViewAdapter internal constructor(context: Context): RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var movies = emptyList<Movie>()
+    private var movies: List<Movie> = emptyList()
     private val onClickListener: View.OnClickListener
     init {
         onClickListener = View.OnClickListener { v ->
@@ -51,6 +53,7 @@ class MoviesRecyclerViewAdapter internal constructor(context: Context): Recycler
 
     internal fun setMovies(movies: List<Movie>) {
         this.movies = movies
+        this.movies.sortedByDescending { movie -> movie.priority }
         notifyDataSetChanged()
     }
 

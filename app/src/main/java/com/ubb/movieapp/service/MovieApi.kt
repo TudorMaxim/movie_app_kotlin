@@ -23,6 +23,9 @@ object MovieApi {
 
         @PATCH("/movies/{id}")
         suspend fun updateMovie(@Path("id") id: Int, @Body movie: Movie)
+
+        @POST("/movies/sync")
+        suspend fun syncMovies(@Body movies: List <Movie>)
     }
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {

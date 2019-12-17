@@ -2,9 +2,11 @@ package com.ubb.movieapp
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ubb.movieapp.adapters.MoviesRecyclerViewAdapter
@@ -28,8 +30,15 @@ class MainActivity : BaseActivity() {
 
         val moviesAdapter = MoviesRecyclerViewAdapter(this)
         item_list.adapter = moviesAdapter
+
         movieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
-        movieViewModel.loadMovies(isConnected())
+
+        if (isConnected()) {
+            movieViewModel.loadMoviesOnline()
+        } else {
+            movieViewModel.loadMoviesOffline()
+        }
+
         movieViewModel.allMovies.observe(this, Observer { movies ->
             movies?.let { moviesAdapter.setMovies(it) }
         })
@@ -40,6 +49,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
@@ -60,10 +70,26 @@ class MainActivity : BaseActivity() {
         }
     }
 
-//    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-//        super.onNetworkConnectionChanged(isConnected)
-//
-//    }
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        super.onNetworkConnectionChanged(isConnected)
+        if (isConnected) {
+            movieViewModel.syncMovies()
+            movieViewModel.loadMoviesOnline()
+        } else {
+            movieViewModel.loadMoviesOffline()
+        }
+    }
+
+    fun refresh(view: View?) {
+        if (isConnected()) {
+            movieViewModel.loadMoviesOnline()
+            Unit
+        } else {
+            movieViewModel.loadMoviesOffline()
+            Unit
+        }
+    }
+
 
     private fun addMovie(intentData: Intent?) {
         intentData?.let { data ->
@@ -74,11 +100,18 @@ class MainActivity : BaseActivity() {
                 data.getStringExtra(MovieDetailFragment.TYPE_EXTRA) as String,
                 data.getFloatExtra(MovieDetailFragment.PRIORITY_EXTRA, 0F)
             )
-            movieViewModel.insert(movie, isConnected())
-            Unit
+            if (isConnected()) {
+                movieViewModel.insertOnline(movie)
+                Unit
+            } else {
+                movieViewModel.insert(movie)
+                Unit
+            }
+            //refresh(item_list)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun deleteMovie(data: Intent?) {
         val id: Int = data?.getStringExtra(MovieDetailFragment.ID_EXTRA)!!.toInt()
         for (movie in movieViewModel.allMovies.value!!) {
@@ -87,6 +120,7 @@ class MainActivity : BaseActivity() {
                 Unit
             }
         }
+        //refresh(item_list)
     }
 
     private fun updateMovie(data: Intent?) {

@@ -33,4 +33,8 @@ object NetworkRepository {
     suspend fun updateMovie(movie: Movie) {
         MovieApi.service.updateMovie(movie.id, movie)
     }
+
+    suspend fun syncMovies(movies: List <Movie>) {
+        MovieApi.service.syncMovies(movies)
+    }
 }
